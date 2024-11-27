@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Todo } from "./types";
 import { initTodos } from "./initTodos";
-import WelcomeMessage from "./WelcomeMessage";
+// import WelcomeMessage from "./WelcomeMessage";
 import TodoList from "./TodoList";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
-import { twMerge } from "tailwind-merge";
+// import { twMerge } from "tailwind-merge";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+// import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import NewTodoPopup from "./NewTodoPopup";
 import { faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
 
