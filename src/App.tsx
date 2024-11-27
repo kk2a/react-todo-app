@@ -202,7 +202,6 @@ const App = () => {
         <span>新しいタスクの追加</span>
       </button>
 
-      {/* ここにソートボタンを配置 */}
       <div className="mb-4 flex space-x-2">
         <button
           onClick={sortByPriority}
