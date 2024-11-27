@@ -57,7 +57,7 @@ export const removeEachBase = (
   setTodos(updatedTodos);
 };
 
-export const editTodosBase = (
+export const editTodoBase = (
   id: TodoId,
   name: TodoName,
   priority: TodoPriority,
@@ -80,4 +80,23 @@ export const editTodosBase = (
     }
   });
   setTodos(updatedTodos);
+};
+
+export const sortByPriorityBase = (
+  todos: Todo[],
+  setTodos: (todos: Todo[]) => void
+) => {
+  const sortedTodos = todos.sort((a: Todo, b: Todo) => b.priority - a.priority);
+  setTodos([...sortedTodos]);
+};
+
+export const sortByDeadlineBase = (
+  todos: Todo[],
+  setTodos: (todos: Todo[]) => void
+) => {
+  const sortedTodos = todos.sort(
+    (a: Todo, b: Todo) =>
+      new Date(a.deadline).valueOf() - new Date(b.deadline).valueOf()
+  );
+  setTodos([...sortedTodos]);
 };

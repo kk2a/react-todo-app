@@ -6,6 +6,8 @@ type Props = {
   todos: Todo[];
   updateIsDone: (id: TodoId, isDone: TodoIsDone) => void;
   removeEach: (id: TodoId) => void;
+  openEditPopup: (todo: Todo) => void;
+  dateFormat: (date: Date) => string;
 };
 
 const TodoList = (props: Props) => {
@@ -25,8 +27,10 @@ const TodoList = (props: Props) => {
         <TodoItem
           key={todo.id}
           todo={todo}
+          openEditPopup={props.openEditPopup}
           removeEach={props.removeEach}
           updateIsDone={props.updateIsDone}
+          dateFormat={props.dateFormat}
         />
       ))}
     </div>

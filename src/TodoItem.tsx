@@ -11,12 +11,15 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
-import { dateFortmat } from "./dateFortmat";
+// import { dateFortmat } from "./dateFortmat";
+import { pt } from "date-fns/locale";
 
 type Props = {
   todo: Todo;
   updateIsDone: (id: TodoId, isDone: TodoIsDone) => void;
   removeEach: (id: TodoId) => void;
+  openEditPopup: (todo: Todo) => void;
+  dateFormat: (date: Date) => string;
 };
 
 const TodoItem = (props: Props) => {
@@ -66,17 +69,28 @@ const TodoItem = (props: Props) => {
                 : "text-gray-500"
             }`}
           >
-            期限: {dateFortmat(todo.deadline)}
+            期限: {props.dateFormat(todo.deadline)}
           </div>
         )}
       </div>
-      <div>
+      <div className="flex flex-col">
         <button
-          onClick={() => props.removeEach(todo.id)}
-          className="shrink-0 rounded-full bg-red-500 px-4 py-2 text-lg font-bold text-white transition-colors duration-300 hover:bg-red-700"
+          onClick={() => {
+            props.removeEach(todo.id);
+          }}
+          className="mb-2 shrink-0 rounded-full bg-red-500 px-4 py-2 text-lg font-bold text-white transition-colors duration-300 hover:bg-red-700"
           style={{ minWidth: "70px" }}
         >
           削除
+        </button>
+        <button
+          onClick={() => {
+            props.openEditPopup(todo);
+          }}
+          className="shrink-0 rounded-full bg-blue-500 px-4 py-2 text-lg font-bold text-white transition-colors duration-300 hover:bg-blue-700"
+          style={{ minWidth: "70px" }}
+        >
+          編集
         </button>
       </div>
     </div>

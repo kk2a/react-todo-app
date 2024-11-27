@@ -9,6 +9,7 @@ import {
   TodoMemo,
   INIT_DEADLINE,
 } from "./types";
+import { todo } from "node:test";
 
 export const updatePriorityBase = (
   e: ChangeEvent<HTMLInputElement>,
@@ -60,10 +61,44 @@ export const updateMemoBase = (
   setNewTodoMemo(e.target.value);
 };
 
-export const openPopupBase = (setIsPopupOpen: (isOpen: boolean) => void) => {
+export const openAddPopupBase = (
+  setAddIsPopupOpen: (isOpen: boolean) => void
+) => {
+  setAddIsPopupOpen(true);
+};
+
+export const closeAddPopupBase = (
+  setAddIsPopupOpen: (isOpen: boolean) => void
+) => {
+  setAddIsPopupOpen(false);
+};
+
+export const openEditPopupBase = (
+  todo: Todo,
+  setIsPopupOpen: (isOpen: boolean) => void,
+  setIsTodoId: (id: TodoId) => void,
+  setEditTodoName: (name: TodoName) => void,
+  setEditTodoPriority: (priority: TodoPriority) => void,
+  setEditTodoDeadline: (date: TodoDeadline) => void,
+  setEditTodoMemo: (memo: TodoMemo) => void
+) => {
+  setIsTodoId(todo.id);
+  setEditTodoName(todo.name);
+  setEditTodoPriority(todo.priority);
+  setEditTodoDeadline(todo.deadline);
+  setEditTodoMemo(todo.memo);
   setIsPopupOpen(true);
 };
 
-export const closePopupBase = (setIsPopupOpen: (isOpen: boolean) => void) => {
+export const closeEditPopupBase = (
+  setIsPopupOpen: (isOpen: boolean) => void
+) => {
   setIsPopupOpen(false);
+};
+
+export const toggleChrismasModeBase = (
+  isChrismas: boolean,
+  setChrismas: (isChrismas: boolean) => void
+) => {
+  setChrismas(!isChrismas);
 };

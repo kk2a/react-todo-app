@@ -10,31 +10,33 @@ import dayjs from "dayjs";
 import { formatDate } from "date-fns";
 
 type Props = {
-  newTodoName: TodoName;
-  newTodoPriority: TodoPriority;
-  newTodoDeadline: TodoDeadline;
-  newTodoMemo: TodoMemo;
-  updateNewTodoName: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  updateNewTodoPriority: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  updateNewTodoDeadline: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  updateNewTodoMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  addNewTodo: () => void;
+  todoName: TodoName;
+  todoPriority: TodoPriority;
+  todoDeadline: TodoDeadline;
+  todoMemo: TodoMemo;
+  updateTodoName: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  updateTodoPriority: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  updateTodoDeadline: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  updateTodoMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  updateTodo: () => void;
   closePopup: () => void;
+  addOrEdit: "add" | "edit";
 };
 
 const NewTodoPopup: React.FC<Props> = ({
-  newTodoName,
-  newTodoPriority,
-  newTodoDeadline,
-  newTodoMemo,
-  updateNewTodoName,
-  updateNewTodoPriority,
-  updateNewTodoDeadline,
-  updateNewTodoMemo,
-  addNewTodo,
-  closePopup,
+  todoName: todoName,
+  todoPriority: todoPriority,
+  todoDeadline: todoDeadline,
+  todoMemo: todoMemo,
+  updateTodoName: updateTodoName,
+  updateTodoPriority: updateTodoPriority,
+  updateTodoDeadline: updateTodoDeadline,
+  updateTodoMemo: updateTodoMemo,
+  updateTodo: updateTodo,
+  closePopup: closePopup,
+  addOrEdit: addOrEdit,
 }) => {
-  const isNameInvalid = newTodoName.length < 1;
+  const isNameInvalid = todoName.length < 1;
   const format = (date: Date) => {
     return dayjs(date).format("YYYY-MM-DDTHH:mm");
   };
@@ -53,8 +55,8 @@ const NewTodoPopup: React.FC<Props> = ({
             <input
               id="newTodoName"
               type="text"
-              value={newTodoName}
-              onChange={updateNewTodoName}
+              value={todoName}
+              onChange={updateTodoName}
               className={twMerge(
                 "grow rounded-md border p-2",
                 isNameInvalid && "border-red-500 outline-red-500"
@@ -78,8 +80,8 @@ const NewTodoPopup: React.FC<Props> = ({
             <input
               id="newTodoPriority"
               type="number"
-              value={newTodoPriority}
-              onChange={updateNewTodoPriority}
+              value={todoPriority}
+              onChange={updateTodoPriority}
               className="grow rounded-md border p-2"
               min={0}
               max={1000}
@@ -92,8 +94,8 @@ const NewTodoPopup: React.FC<Props> = ({
             <input
               type="datetime-local"
               id="newTodoDeadline"
-              value={format(newTodoDeadline)}
-              onChange={updateNewTodoDeadline}
+              value={format(todoDeadline)}
+              onChange={updateTodoDeadline}
               className="rounded-md border border-gray-400 px-2 py-0.5 focus:border-blue-500 focus:outline-none"
             />
           </div>
@@ -103,8 +105,8 @@ const NewTodoPopup: React.FC<Props> = ({
             </label>
             <textarea
               id="newTodoMemo"
-              value={newTodoMemo}
-              onChange={updateNewTodoMemo}
+              value={todoMemo}
+              onChange={updateTodoMemo}
               className="grow rounded-md border p-2"
               placeholder="メモを入力してください"
             />
@@ -118,7 +120,7 @@ const NewTodoPopup: React.FC<Props> = ({
             </button>
             <button
               onClick={() => {
-                addNewTodo();
+                updateTodo();
                 closePopup();
               }}
               className={twMerge(
@@ -129,7 +131,7 @@ const NewTodoPopup: React.FC<Props> = ({
               )}
               disabled={isNameInvalid}
             >
-              追加
+              {addOrEdit === "add" ? "追加" : "編集"}
             </button>
           </div>
         </div>

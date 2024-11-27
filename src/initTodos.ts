@@ -1,5 +1,6 @@
 import { Todo, INIT_DEADLINE } from "./types";
 import { v4 as uuid } from "uuid"; // v4 を uuid という名前でインポート
+import dayjs from "dayjs";
 
 export const initTodos: Todo[] = [
   {
@@ -7,7 +8,7 @@ export const initTodos: Todo[] = [
     name: "解析2の宿題",
     isDone: false,
     priority: 2,
-    deadline: new Date(),
+    deadline: dayjs().add(1, "day").toDate(),
     memo: "微分積分学の復習",
   },
   {
@@ -23,7 +24,7 @@ export const initTodos: Todo[] = [
     name: "基礎物理学3の宿題",
     isDone: false,
     priority: 100,
-    deadline: new Date(2024, 10, 11),
+    deadline: new Date(2023, 11, 26),
     memo: "リードアルファ",
   },
 ];
