@@ -22,7 +22,7 @@ const App = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const [initialized, setInitialized] = useState(false);
-  const localStorageKey = "TodoApp";
+  const localStorageKey = "TodoAppaoiantohgku";
   // const clearLocalStorage = () => {
   //   localStorage.removeItem(localStorageKey);
   //   setTodos(initTodos);
