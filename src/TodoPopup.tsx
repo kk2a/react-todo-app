@@ -45,7 +45,7 @@ const NewTodoPopup: React.FC<Props> = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50">
-      <div className="rounded-md bg-white p-6 shadow-md">
+      <div className="w-[600px] rounded-md bg-white p-6 shadow-md">
         <h2 className="text-lg font-bold">新しいタスクの追加</h2>
         <div>
           <div className="flex items-center space-x-2">

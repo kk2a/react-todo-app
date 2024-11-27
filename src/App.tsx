@@ -39,7 +39,6 @@ import {
   sortByDeadlineBase,
 } from "./updateTodos";
 import { dateFortmat } from "./dateFortmat";
-import { da } from "date-fns/locale";
 
 const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);

@@ -9,7 +9,6 @@ import {
   TodoMemo,
   INIT_DEADLINE,
 } from "./types";
-import { todo } from "node:test";
 
 export const updatePriorityBase = (
   e: ChangeEvent<HTMLInputElement>,
