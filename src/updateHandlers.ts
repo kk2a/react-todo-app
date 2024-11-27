@@ -54,7 +54,7 @@ export const updateNameBase = (
 };
 
 export const updateMemoBase = (
-  e: ChangeEvent<HTMLInputElement>,
+  e: ChangeEvent<HTMLTextAreaElement>,
   setNewTodoMemo: (memo: TodoMemo) => void
 ) => {
   setNewTodoMemo(e.target.value);

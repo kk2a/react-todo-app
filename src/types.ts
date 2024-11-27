@@ -13,7 +13,7 @@ export type Todo = {
   isDone: TodoIsDone;
   priority: TodoPriority;
   deadline: TodoDeadline;
-  memo?: TodoMemo;
+  memo: TodoMemo;
 };
 
 export const INIT_NAME: TodoName = "";

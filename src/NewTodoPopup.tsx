@@ -13,9 +13,11 @@ type Props = {
   newTodoName: TodoName;
   newTodoPriority: TodoPriority;
   newTodoDeadline: TodoDeadline;
+  newTodoMemo: TodoMemo;
   updateNewTodoName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   updateNewTodoPriority: (e: React.ChangeEvent<HTMLInputElement>) => void;
   updateNewTodoDeadline: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  updateNewTodoMemo: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   addNewTodo: () => void;
   closePopup: () => void;
 };
@@ -24,9 +26,11 @@ const NewTodoPopup: React.FC<Props> = ({
   newTodoName,
   newTodoPriority,
   newTodoDeadline,
+  newTodoMemo,
   updateNewTodoName,
   updateNewTodoPriority,
   updateNewTodoDeadline,
+  updateNewTodoMemo,
   addNewTodo,
   closePopup,
 }) => {
@@ -91,6 +95,18 @@ const NewTodoPopup: React.FC<Props> = ({
               value={format(newTodoDeadline)}
               onChange={updateNewTodoDeadline}
               className="rounded-md border border-gray-400 px-2 py-0.5 focus:border-blue-500 focus:outline-none"
+            />
+          </div>
+          <div className="mt-4 flex items-center space-x-2">
+            <label className="font-bold" htmlFor="newTodoMemo">
+              メモ
+            </label>
+            <textarea
+              id="newTodoMemo"
+              value={newTodoMemo}
+              onChange={updateNewTodoMemo}
+              className="grow rounded-md border p-2"
+              placeholder="メモを入力してください"
             />
           </div>
           <div className="mt-4 flex justify-end space-x-2">

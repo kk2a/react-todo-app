@@ -82,7 +82,7 @@ const App = () => {
   const updateName = (e: React.ChangeEvent<HTMLInputElement>) => {
     updateNameBase(e, setNewTodoName);
   };
-  const updateMemo = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const updateMemo = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateMemoBase(e, setNewTodoMemo);
   };
   const openPopup = () => {
@@ -150,9 +150,11 @@ const App = () => {
           newTodoName={newTodoName}
           newTodoPriority={newTodoPriority}
           newTodoDeadline={newTodoDeadline}
+          newTodoMemo={newTodoMemo}
           updateNewTodoName={updateName}
           updateNewTodoPriority={updatePriority}
           updateNewTodoDeadline={updateDeadline}
+          updateNewTodoMemo={updateMemo}
           addNewTodo={addNewTodo}
           closePopup={closePopup}
         />

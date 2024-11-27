@@ -35,9 +35,9 @@ const TodoItem = (props: Props) => {
   };
 
   return (
-    <div className="group flex items-center justify-between rounded-lg border border-gray-300 bg-white p-4 shadow-md transition-shadow duration-300 hover:shadow-lg">
-      <div className="flex flex-col">
-        <div className="flex items-center">
+    <div className="group flex w-full flex-row items-center justify-between rounded-lg border border-gray-300 bg-white p-4 shadow-md transition-shadow duration-300 hover:shadow-lg">
+      <div className="flex w-full flex-col">
+        <div className="flex w-full items-center">
           <input
             type="checkbox"
             checked={todo.isDone}
@@ -45,17 +45,22 @@ const TodoItem = (props: Props) => {
             className="mr-3 size-5 cursor-pointer accent-blue-500"
           />
           <span
-            className={`text-lg ${todo.isDone ? "text-gray-400 line-through" : "text-gray-800"} group-hover:font-bold`}
+            className={`break-all text-xl ${todo.isDone ? "text-gray-400 line-through" : "text-gray-800"} w-full pr-2 text-justify group-hover:font-bold`}
           >
             {todo.name}
           </span>
         </div>
-        <div className="ml-8 mt-1 text-sm text-gray-500">
+        {todo.memo && (
+          <div className="ml-8 mt-1 break-all pr-2 text-justify text-lg text-gray-500">
+            メモ: {todo.memo}
+          </div>
+        )}
+        <div className="ml-8 mt-1 text-lg text-gray-500">
           優先度: {renderStars(todo.priority)}
         </div>
         {todo.deadline && (
           <div
-            className={`ml-8 mt-1 text-sm ${
+            className={`ml-8 mt-1 text-lg ${
               !todo.isDone && isPastDeadline(todo.deadline)
                 ? "font-bold text-red-500"
                 : "text-gray-500"
@@ -68,7 +73,8 @@ const TodoItem = (props: Props) => {
       <div>
         <button
           onClick={() => props.removeEach(todo.id)}
-          className="w-16 shrink-0 rounded-full bg-red-500 px-4 py-2 text-sm font-bold text-white transition-colors duration-300 hover:bg-red-700"
+          className="shrink-0 rounded-full bg-red-500 px-4 py-2 text-lg font-bold text-white transition-colors duration-300 hover:bg-red-700"
+          style={{ minWidth: "70px" }}
         >
           削除
         </button>
