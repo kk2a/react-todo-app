@@ -1,13 +1,22 @@
 import React from "react";
-import { Todo } from "./types";
+import {
+  Todo,
+  TodoId,
+  TodoIsDone,
+  TodoDeadline,
+  TodoPriority,
+  TodoName,
+  TodoMemo,
+} from "./types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
+import { dateFortmat } from "./dateFortmat";
 
 type Props = {
   todo: Todo;
-  updateIsDone: (id: string, isDone: boolean) => void;
-  removeEach: (id: string) => void;
+  updateIsDone: (id: TodoId, isDone: TodoIsDone) => void;
+  removeEach: (id: TodoId) => void;
 };
 
 const TodoItem = (props: Props) => {
@@ -20,14 +29,8 @@ const TodoItem = (props: Props) => {
     ));
   };
 
-  // 期限をフォーマットする関数
-  const formatDeadline = (deadline: Date | null) => {
-    return deadline ? dayjs(deadline).format("YYYY/MM/DD HH:mm") : "";
-  };
-
   // 日付を受け取って現在時刻と比較し、過去か未来かを判断する関数
-  const isPastDeadline = (deadline: Date | null) => {
-    if (!deadline) return false;
+  const isPastDeadline = (deadline: Date) => {
     return dayjs(deadline).isBefore(dayjs());
   };
 
@@ -58,7 +61,7 @@ const TodoItem = (props: Props) => {
                 : "text-gray-500"
             }`}
           >
-            期限: {formatDeadline(todo.deadline)}
+            期限: {dateFortmat(todo.deadline)}
           </div>
         )}
       </div>

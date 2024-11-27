@@ -1,124 +1,130 @@
 import { useState, useEffect } from "react";
-import { Todo } from "./types";
 import { initTodos } from "./initTodos";
-// import WelcomeMessage from "./WelcomeMessage";
 import TodoList from "./TodoList";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
-// import { twMerge } from "tailwind-merge";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import NewTodoPopup from "./NewTodoPopup";
 import { faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  Todo,
+  TodoName,
+  TodoId,
+  TodoIsDone,
+  TodoPriority,
+  TodoDeadline,
+  TodoMemo,
+  INIT_IS_DONE,
+  INIT_PRIORITY,
+  INIT_DEADLINE,
+  INIT_MEMO,
+  INIT_NAME,
+} from "./types";
+import {
+  updatePriorityBase,
+  updateDeadlineBase,
+  updateIsDoneBase,
+  updateNameBase,
+  updateMemoBase,
+  openPopupBase,
+  closePopupBase,
+} from "./updateHandlers";
+import {
+  addNewTodoBase,
+  removeCompletedTodosBase,
+  removeEachBase,
+  editTodosBase,
+} from "./updateTodos";
 
 const App = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [newTodoName, setNewTodoName] = useState("");
-  const [newTodoPriority, setNewTodoPriority] = useState(3);
-  const [newTodoDeadline, setNewTodoDeadline] = useState<Date>(
-    dayjs().startOf("day").toDate()
-  );
-  // const [newTodoNameError, setNewTodoNameError] = useState("");
+  const [newTodoName, setNewTodoName] = useState(INIT_NAME);
+  const [newTodoPriority, setNewTodoPriority] = useState(INIT_PRIORITY);
+  const [newTodoDeadline, setNewTodoDeadline] = useState(INIT_DEADLINE);
+  const [newTodoMemo, setNewTodoMemo] = useState(INIT_MEMO);
+  const [editTodoName, setEditTodoName] = useState(INIT_NAME);
+  const [editTodoPriority, setEditTodoPriority] = useState(INIT_PRIORITY);
+  const [editTodoDeadline, setEditTodoDeadline] = useState(INIT_DEADLINE);
+  const [editTodoMemo, setEditTodoMemo] = useState(INIT_MEMO);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  // 初期化処理
   const [initialized, setInitialized] = useState(false);
-  const localStorageKey = "TodoAppaoiantohgku";
-  // const clearLocalStorage = () => {
-  //   localStorage.removeItem(localStorageKey);
-  //   setTodos(initTodos);
-  // };
-  // clearLocalStorage();
-
+  const localStorageKey = "TodoApp";
   useEffect(() => {
     const todoJsonStr = localStorage.getItem(localStorageKey);
     if (todoJsonStr && todoJsonStr !== "[]") {
       const storedTodos: Todo[] = JSON.parse(todoJsonStr);
-      const convertedTodos = storedTodos.map((todo) => ({
-        ...todo,
-        deadline: todo.deadline ? new Date(todo.deadline) : null,
-      }));
-      setTodos(convertedTodos);
+      setTodos(storedTodos);
     } else {
       // LocalStorage にデータがない場合は initTodos をセットする
       setTodos(initTodos);
     }
     setInitialized(true);
   }, []);
-
   useEffect(() => {
     if (initialized) {
       localStorage.setItem(localStorageKey, JSON.stringify(todos));
     }
   }, [todos, initialized]);
+  // 初期化処理
 
+  // update系
   const updatePriority = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const priority = Number(e.target.value);
-    setNewTodoPriority(Math.max(0, Math.min(1000, priority)));
+    updatePriorityBase(e, setNewTodoPriority);
   };
-
   const updateDeadline = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === "") {
-      setNewTodoDeadline(dayjs().startOf("day").toDate());
-      return;
-    }
-    setNewTodoDeadline(new Date(e.target.value));
+    updateDeadlineBase(e, setNewTodoDeadline);
   };
-
-  const updateIsDone = (id: string, isdone: boolean) => {
-    const updatedTodos = todos.map((todo) => {
-      if (todo.id === id) {
-        return { ...todo, isDone: isdone };
-      } else {
-        return todo;
-      }
-    });
-    setTodos(updatedTodos);
+  const updateIsDone = (id: TodoId, isdone: boolean) => {
+    updateIsDoneBase(id, isdone, todos, setTodos);
   };
-
-  const updateNewTodoName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewTodoName(e.target.value);
+  const updateName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateNameBase(e, setNewTodoName);
   };
-
+  const updateMemo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateMemoBase(e, setNewTodoMemo);
+  };
   const openPopup = () => {
-    setIsPopupOpen(true);
+    openPopupBase(setIsPopupOpen);
   };
-
   const closePopup = () => {
-    setIsPopupOpen(false);
+    closePopupBase(setIsPopupOpen);
   };
-
   const addNewTodo = () => {
-    if (newTodoName.length < 1) {
-      return;
-    }
-    const newTodo: Todo = {
-      id: uuid(),
-      name: newTodoName,
-      isDone: false,
-      priority: newTodoPriority,
-      deadline: newTodoDeadline,
-    };
-    setTodos([...todos, newTodo]);
-    setNewTodoName("");
-    setNewTodoPriority(3);
-    setNewTodoDeadline(dayjs().startOf("day").toDate());
-    closePopup();
+    addNewTodoBase(
+      todos,
+      newTodoName,
+      newTodoPriority,
+      newTodoDeadline,
+      newTodoMemo,
+      setTodos,
+      setNewTodoName,
+      setNewTodoPriority,
+      setNewTodoDeadline
+    );
   };
-
   const removeCompletedTodos = () => {
-    const updatedTodos = todos.filter((todo) => !todo.isDone);
-    setTodos(updatedTodos);
+    removeCompletedTodosBase(todos, setTodos);
   };
-
-  const removeEach = (id: string) => {
-    const updatedTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(updatedTodos);
+  const removeEach = (id: TodoId) => {
+    removeEachBase(id, todos, setTodos);
+  };
+  const editTodos = (id: TodoId) => {
+    editTodosBase(
+      id,
+      editTodoName,
+      editTodoPriority,
+      editTodoDeadline,
+      editTodoMemo,
+      todos,
+      setTodos
+    );
   };
 
   return (
     <div className="relative mx-4 mt-10 max-w-2xl md:mx-auto">
       <h1 className="mb-4 text-3xl font-bold">TodoApp</h1>
-
       <button
         onClick={openPopup}
         className="absolute right-0 top-0 my-2 flex items-center space-x-2 rounded-md bg-blue-500 px-3 py-1 font-bold text-white hover:bg-blue-600"
@@ -126,13 +132,11 @@ const App = () => {
         <FontAwesomeIcon icon={faPlus} />
         <span>新しいタスクの追加</span>
       </button>
-
       <TodoList
         todos={todos}
         updateIsDone={updateIsDone}
         removeEach={removeEach}
       />
-
       <button
         type="button"
         onClick={removeCompletedTodos}
@@ -141,13 +145,12 @@ const App = () => {
         <FontAwesomeIcon icon={faTrash} />
         <span>完了済みタスクを削除</span>
       </button>
-
       {isPopupOpen && (
         <NewTodoPopup
           newTodoName={newTodoName}
           newTodoPriority={newTodoPriority}
           newTodoDeadline={newTodoDeadline}
-          updateNewTodoName={updateNewTodoName}
+          updateNewTodoName={updateName}
           updateNewTodoPriority={updatePriority}
           updateNewTodoDeadline={updateDeadline}
           addNewTodo={addNewTodo}

@@ -1,11 +1,11 @@
 import React from "react";
-import { Todo } from "./types";
+import { Todo, TodoId, TodoIsDone } from "./types";
 import TodoItem from "./TodoItem";
 
 type Props = {
   todos: Todo[];
-  updateIsDone: (id: string, isDone: boolean) => void;
-  removeEach: (id: string) => void;
+  updateIsDone: (id: TodoId, isDone: TodoIsDone) => void;
+  removeEach: (id: TodoId) => void;
 };
 
 const TodoList = (props: Props) => {

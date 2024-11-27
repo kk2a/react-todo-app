@@ -1,4 +1,4 @@
-import { Todo } from "./types";
+import { Todo, INIT_DEADLINE } from "./types";
 import { v4 as uuid } from "uuid"; // v4 を uuid という名前でインポート
 
 export const initTodos: Todo[] = [
@@ -14,7 +14,7 @@ export const initTodos: Todo[] = [
     name: "TypeScriptの勉強 (復習)",
     isDone: true,
     priority: 3,
-    deadline: null, // このTodoには期限を設定しない
+    deadline: INIT_DEADLINE, // このTodoには期限を設定しない
   },
   {
     id: uuid(),

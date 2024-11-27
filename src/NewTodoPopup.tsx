@@ -4,13 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
-import "./custom-datetime-picker.css";
+import { TodoName, TodoPriority, TodoDeadline, TodoMemo } from "./types";
+import { dateFortmat } from "./dateFortmat";
 import dayjs from "dayjs";
+import { formatDate } from "date-fns";
 
 type Props = {
-  newTodoName: string;
-  newTodoPriority: number;
-  newTodoDeadline: Date;
+  newTodoName: TodoName;
+  newTodoPriority: TodoPriority;
+  newTodoDeadline: TodoDeadline;
   updateNewTodoName: (e: React.ChangeEvent<HTMLInputElement>) => void;
   updateNewTodoPriority: (e: React.ChangeEvent<HTMLInputElement>) => void;
   updateNewTodoDeadline: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -29,6 +31,11 @@ const NewTodoPopup: React.FC<Props> = ({
   closePopup,
 }) => {
   const isNameInvalid = newTodoName.length < 1;
+  const format = (date: Date) => {
+    return dayjs(date).format("YYYY-MM-DDTHH:mm");
+  };
+  // const displayDeadline = dateFortmat(newTodoDeadline);
+  // console.log(displayDeadline);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50">
@@ -81,11 +88,7 @@ const NewTodoPopup: React.FC<Props> = ({
             <input
               type="datetime-local"
               id="newTodoDeadline"
-              value={
-                newTodoDeadline
-                  ? dayjs(newTodoDeadline).format("YYYY-MM-DDTHH:mm:ss")
-                  : ""
-              }
+              value={format(newTodoDeadline)}
               onChange={updateNewTodoDeadline}
               className="rounded-md border border-gray-400 px-2 py-0.5 focus:border-blue-500 focus:outline-none"
             />
@@ -98,7 +101,10 @@ const NewTodoPopup: React.FC<Props> = ({
               キャンセル
             </button>
             <button
-              onClick={addNewTodo}
+              onClick={() => {
+                addNewTodo();
+                closePopup();
+              }}
               className={twMerge(
                 "rounded-md px-3 py-1 font-bold text-white",
                 isNameInvalid
