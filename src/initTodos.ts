@@ -7,7 +7,7 @@ export const initTodos: Todo[] = [
     name: "解析2の宿題",
     isDone: false,
     priority: 2,
-    deadline: new Date(2024, 10, 2, 17, 30),
+    deadline: new Date(),
   },
   {
     id: uuid(),
